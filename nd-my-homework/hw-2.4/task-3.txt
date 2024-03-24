@@ -1,0 +1,23 @@
+
+1. запускаем первый контейнер с ссылкой на внешнюю папку
+docker run -d --rm --name first_node -v /Users/evgenypogrebnyak/Documents/work-node/docker-1/data:/var/first/data node /bin/sleep infinity
+
+2. запускаем второй контейнер с ссылкой на внешнюю папку
+docker run -d --rm --name second_node -v /Users/evgenypogrebnyak/Documents/work-node/docker-1/data:/var/second/data node /bin/sleep infinity
+
+3. подключаемся в первый контейнер, создаем файл
+docker exec -it first_node /bin/bash
+touch var/first/data/test.txt
+echo "hi, i am first" >> var/first/data/test.txt
+
+4. подключаемся во второй контейнер, читаем файл
+docker exec -it first_node /bin/bash
+cat /var/second/data/test.txt
+hi, i am first
+
+5. Останавливаем все контейнеры
+docker stop $(docker ps -a -q)
+(удаляются они автоматически из за ключа --rm)
+
+6. docker rmi node:20.8.0
+

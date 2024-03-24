@@ -1,0 +1,27 @@
+TASK 1
+
+docker-1 % docker run -it --name pinger busybox ping -c 7 netology.ru  
+docker ps -a  
+docker logs pinger  
+docker rm pinger   
+docker rmi busybox  
+
+
+PING netology.ru (104.22.41.171): 56 data bytes  
+64 bytes from 104.22.41.171: seq=0 ttl=63 time=46.611 ms  
+64 bytes from 104.22.41.171: seq=1 ttl=63 time=46.813 ms  
+64 bytes from 104.22.41.171: seq=2 ttl=63 time=46.155 ms  
+64 bytes from 104.22.41.171: seq=3 ttl=63 time=46.179 ms  
+64 bytes from 104.22.41.171: seq=4 ttl=63 time=46.035 ms  
+64 bytes from 104.22.41.171: seq=5 ttl=63 time=51.202 ms  
+64 bytes from 104.22.41.171: seq=6 ttl=63 time=53.555 ms  
+
+--- netology.ru ping statistics ---  
+7 packets transmitted, 7 packets received, 0% packet loss  
+round-trip min/avg/max = 46.035/48.078/53.555 ms  
+
+Untagged: busybox:latest
+Untagged: busybox@sha256:3fbc632167424a6d997e74f52b878d7cc478225cffac6bc977eedfe51c7f4e79
+Deleted: sha256:fc9db2894f4e4b8c296b8c9dab7e18a6e78de700d21bc0cfaf5c78484226db9c
+Deleted: sha256:3694737149b11ec4d2c9f15ad24788e81955cd1c7f2c6f555baf1e4a3615bd26
+

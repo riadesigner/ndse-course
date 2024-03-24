@@ -1,0 +1,19 @@
+{
+  "name": "ria-test",
+  "version": "0.0.1",
+  "description": "test home work",
+  "main": "index.js",
+  "bin": {
+    "getdate": "./getdate.js",
+    "gess-number":"./gess-number.js"
+  },
+  "scripts": {    
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "readline": "^1.3.0",
+    "yargs": "^17.7.2"
+  }
+}

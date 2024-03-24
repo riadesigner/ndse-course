@@ -1,0 +1,10 @@
+
+docker pull node:latest
+
+REPOSITORY   TAG              IMAGE ID       CREATED       SIZE
+node         latest           458f76270eaf   9 days ago    1.1GB
+
+evgenypogrebnyak@iMac-Evgeny docker-1 % docker run -it -e NAME="evgenii" -e SURNAME="pogrebnyak" node:latest
+
+> `привет ${process.env.NAME} ${process.env.SURNAME}`
+'привет evgenii pogrebnyak'

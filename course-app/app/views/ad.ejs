@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
+    <script src="/socket.io/socket.io.js"></script>
+
+    <title></title>
+<style>
+    body{
+        background: #e5e5e5;
+        font-family: arial;;
+    }
+    .ad-header{
+        background: white;;
+        box-shadow: 0 0 4px rgba(0,0,0,.4);
+        padding:10px 30px;
+        border-radius:6px;
+        margin:10px;
+    }
+    .ad-chat{
+        background: white;;
+        box-shadow: 0 0 4px rgba(0,0,0,.4);
+        padding:30px 30px;
+        border-radius:6px;
+        margin:10px;        
+    }
+</style>    
+</head>
+<body>
+<div class="container">    
+    <div class="ad-header">
+        <h2>Объявление</h2>
+        <h3><%= ad.shortTitle %></h3>
+        <p><strong>Объявление id:</strong> <%= ad.id %></p>
+        <p><strong>Автор:</strong> <%= ad.user.name %> / <%= ad.user.id %></p>
+    </div>
+
+    <% if (!user) {%>
+
+        <div class="ad-chat">
+        <p>Чтобы написать автору, <a href="/api/login">авторизируйтесь</a></p>
+        </div>
+
+    <% }else{%>
+
+    <div class="ad-chat">
+        <h3>Привет, <%= user.name %> (<%= user.email%>)</h3>
+        Написать автору: <input type="text" id="ad_chat__text"> 
+        <button id="ad_chat__send_message">Отправить</button>
+    </div>
+    <div class="ad-chat">
+        <button id="ad_chat__get_history">Получить историю сообщений</button>
+    </div>
+
+    <% }%>
+
+<script>
+
+const chat = {
+    init:function(user1Id=false,user2Id=false){
+        this.user1Id = user1Id.toString();
+        this.user2Id = user2Id.toString();        
+        this.$btn_send_message = document.getElementById('ad_chat__send_message');
+        this.$btn_get_history = document.getElementById('ad_chat__get_history');        
+        this.$inp = document.getElementById('ad_chat__text');        
+        this.user1Id && this.user2Id && this.start();
+    },
+    start:function(){
+        this.room = `room-${this.user1Id}-${this.user2Id}`;
+        this.socket = io({
+            query:{
+                user1Id:this.user1Id,
+                user2Id:this.user2Id,
+                room:this.room
+            }
+        });
+        
+        this.socket.on("chatHistory",(data)=>{
+            console.log(data);
+        });        
+        this.socket.on("newMessage",(msg)=>{
+            console.log(msg);
+        });
+        this.socket.on("error",(data)=>{
+            console.log(`err: ${data}`);
+        });                
+        this.behavior();        
+    },
+    behavior:function(){        
+        this.$btn_send_message.addEventListener('click',(e)=>{
+            let msg = this.$inp.value.trim();            
+            this.socket.emit("sendMessage",{receiver:this.user2Id, text:msg});
+            this.$inp.value = "";
+        });
+        this.$btn_get_history.addEventListener('click',(e)=>{            
+            this.socket.emit("getHistory",[this.user1Id,this.user2Id]);            
+        });        
+    }
+};
+
+const user1Id = "<%= user.id %>"; // current user
+const user2Id = "<%= ad.user.id %>"; // receiver user
+
+chat.init(user1Id,user2Id);
+
+</script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "ria-guess-number",
+  "version": "0.0.5",
+  "description": "super tiny game «guess number»",
+  "main": "guess-number.js",
+  "bin":{
+    "guess-number":"./guess-number.js"
+  },
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "readline": "^1.3.0"
+  }
+}

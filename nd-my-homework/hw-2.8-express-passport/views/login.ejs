@@ -1,0 +1,55 @@
+<style>
+
+body{ font-family: arial;}
+input{   margin:5px 0; }
+.error-msg{color:purple;}
+.success-msg{color:green;}
+
+</style>
+
+<h2>Авторизация</h2>
+
+<% if (success_message) { %>    
+    <p class="success-msg"><%= success_message %></p>
+<% } %>    
+
+<% if (error_message) { %>    
+    <p class="error-msg"><%= error_message %></p>
+<% } %>    
+
+<h3>Вход для зарегистрированных пользователей:</h3>
+<form action="/api/user/login" method="post">
+    <div>
+        <label>Логин:</label>
+        <input type="text" name="username" /><br />
+    </div>
+    <div>
+        <label>Пароль:</label>
+        <input type="password" name="password" />
+    </div>
+    <div>
+        <input type="submit" value="Войти" />
+    </div>
+</form>
+<h3>Регистрация нового пользователя:</h3>
+<form action="/api/user/signup" method="post">
+    <div>
+        <label>Логин (обязательное):</label>
+        <input type="text" name="username" /><br />
+    </div>
+    <div>
+        <label>Фио:</label>
+        <input type="text" name="displayName" /><br />
+    </div>    
+    <div>
+        <label>Пароль (обязательное):</label>
+        <input type="password" name="password" />
+    </div>
+    <div>
+        <label>email (обязательное):</label>
+        <input type="text" name="email" />
+    </div>    
+    <div>
+        <input type="submit" value="Зарегистрироваться" />
+    </div>
+</form>

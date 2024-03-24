@@ -1,0 +1,50 @@
+version: "3.0"
+
+services:
+  
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+  
+  storage:
+    image: 'redis'
+    volumes:
+      - ./data:/data
+  
+  counter:
+    image: riadesigner/books-counter:ver-2.0.0
+    working_dir: /app
+    ports:
+      - 8082:3000
+    environment:
+      - PORT=3000
+      - REDIS_URL=redis://storage
+    command: npm run start
+    depends_on:
+      - storage
+
+  library:
+    image: riadesigner/lib-with-chat:v-1.0.0
+    working_dir: /app
+    ports:
+      - 8000:5000
+    environment:
+      - PORT=5000
+      - MONGO_URL=mongodb://root:example@mongo:27017/
+      - COUNTER_URL=http://counter:3000
+    command: npm run start
+    depends_on:
+      - mongo
